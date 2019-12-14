@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
 
-class Anele {
+class RingLeader {
 	static int n;
 	static int pro[] = new int[100];
 	static int sta[] = new int[100];

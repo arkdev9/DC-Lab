@@ -1,0 +1,100 @@
+1.
+import java.io.*; 
+import java.net.*; 
+import java.util.*; 
+public class ClockServer  
+{ 
+    public static void main(String[] args) throws IOException 
+ { 
+        BufferedReader br = new BufferedReader( 
+                    new InputStreamReader(System.in)); 
+        System.out.println("Enter the port no"); 
+        int port_number=br.read(); 
+             try ( 
+            ServerSocket serverSocket = new ServerSocket(port_number); 
+            Socket clientSocket = serverSocket.accept();      
+            PrintWriter out =new PrintWriter(clientSocket.getOutputStream(), true);                    
+            BufferedReader in = new BufferedReader( 
+                new InputStreamReader(clientSocket.getInputStream())); 
+             
+        )  
+{ 
+            String inputLine; 
+            System.out.println("Server Started"); 
+            while (true)  
+{ 
+                inputLine = in.readLine(); 
+                if(inputLine.equalsIgnoreCase("Exit")) 
+                { 
+                     System.out.println("Exiting"); 
+                     out.println("Server Exiting"); 
+                     break; 
+                } 
+                out.println(System.currentTimeMillis()+5000); 
+            } 
+        }  
+catch (IOException e) 
+ { 
+            System.out.println("Exception caught when trying to listen on port " 
+                + port_number + " or listening for a connection"); 
+            System.out.println(e.getMessage()); 
+        } 
+    } 
+ 
+}
+2.
+import java.io.*; 
+import java.net.*; 
+import java.text.*; 
+import java.util.*; 
+public class ClockClient  
+{ 
+public static void main(String[] args) throws IOException  
+{ 
+        String hostName; 
+        BufferedReader br =new BufferedReader( 
+                    new InputStreamReader(System.in)); 
+        System.out.println("Enter the port no"); 
+        int port=br.read(); 
+        System.out.println("Enter the host name"); 
+        hostName=br.readLine(); 
+        try ( 
+ 
+            Socket echoSocket = new Socket(hostName, port); 
+            PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true); 
+            BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream())); 
+ 
+            )  
+{ 
+            String userInput; 
+            System.out.println("Client Started"); 
+            System.out.println("Enter Exit to stop"); 
+             
+                long T0; 
+                long serverTime; 
+                long T1; 
+                long finalTime;                 
+                out.println(T0=System.currentTimeMillis()); 
+                serverTime = Long.parseLong(in.readLine()); 
+                T1 =System.currentTimeMillis(); 
+                finalTime =  serverTime + (T1-T0)/2; 
+                DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS"); 
+                System.out.println("Client Time: " + formatter.format(new Date(T1))); 
+                System.out.println("Server Time: " + formatter.format(new Date(serverTime))); 
+                System.out.println("Client Time after reset: " + formatter.format(new Date(finalTime))); 
+                out.println("EXIT")    
+        }  
+catch (UnknownHostException e)  
+{ 
+            System.err.println("Don't know about host " + hostName); 
+            System.exit(1); 
+        }  
+catch (IOException e)  
+{ 
+            System.err.println("Couldn't get I/O for the connection to " +hostName); 
+            System.exit(1); 
+        }  
+    } 
+ 
+} 
+ 

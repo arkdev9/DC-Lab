@@ -6,19 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParseFile {
+
 	// static int totalNodes;
+
 	// public static void main(String[] args) throws IOException {
 	// readConfigFile();
 	//
 	// }
+
 	public static List<Node> readConfigFile(int id) throws FileNotFoundException, IOException {
 		List<Node> nodeinfo = new ArrayList<Node>();
 		// System.out.println("Please enter the node id");
 		// Scanner in = new Scanner(System.in);
 		// int id = in.nextInt();
 		String[] data;
+
 		BufferedReader readfile = new BufferedReader(new FileReader("/home/rohit/indigo_workspace/AosTest/Config"));
+
 		String line;
+
 		while ((line = readfile.readLine()) != null) {
 			if (!line.startsWith("#")) {
 				data = line.split(" ");
@@ -49,4 +55,5 @@ public class ParseFile {
 			System.out.println("Port no is : " + nodeinfo.get(i).portno);
 		}
 	}
+
 }

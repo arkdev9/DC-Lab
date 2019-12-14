@@ -1,10 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-//class that handles all the queue operations
 public class queueOP {
-	public static void insert(String str, newnode n) // code to insert element into the queue
-	{
+	public static void insert(String str, newnode n) {
 		String msg[] = str.split(" ");
 		int times = Integer.parseInt(msg[1]);
 		int id = Integer.parseInt(msg[0]);
@@ -35,8 +33,7 @@ public class queueOP {
 		}
 	}
 
-	public static void delete(newnode n) // code to delete element from the queue
-	{
+	public static void delete(newnode n) {
 		for (int i = 0; i < n.queue.length - 2; i++) {
 			n.queue[i] = n.queue[i + 1];
 		}

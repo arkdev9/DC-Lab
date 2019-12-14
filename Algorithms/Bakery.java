@@ -1,14 +1,9 @@
-import java.util.*;
-import java.io.*;
-import java.lang.*;
-
 public class Bakery extends Thread {
 
-	// Variables for the threads.
-	public int thread_id; // The id of the current thread.
-	public static final int countToThis = 200;
-	public static final int numberOfThreads = 5;
-	public static volatile int count = 0; // A simple counter for the testing.
+	public int thread_id;
+	public static final int countToThis = 10;
+	public static final int numberOfThreads = 3;
+	public static volatile int count = 0;
 	private static volatile boolean[] choosing = new boolean[numberOfThreads];
 	private static volatile int[] ticket = new int[numberOfThreads];
 
@@ -18,9 +13,7 @@ public class Bakery extends Thread {
 
 	public void run() {
 		int scale = 2;
-
 		for (int i = 0; i < countToThis; i++) {
-
 			lock(thread_id);
 			// Start of critical section.
 			count = count + 1;
@@ -33,19 +26,16 @@ public class Bakery extends Thread {
 				/* nothing */ }
 			// End of critical section.
 			unlock(thread_id);
-
-		} // for
-
-	} // run method
+		}
+	}
 
 	public void lock(int id) {
 		choosing[id] = true;
 
 		ticket[id] = findMax() + 1;
-		// choosing[id] = false;
+		choosing[id] = false;
 
 		for (int j = 0; j < numberOfThreads; j++) {
-
 			if (j == id)
 				continue;
 			while (choosing[j]) {
@@ -53,7 +43,7 @@ public class Bakery extends Thread {
 			while (ticket[j] != 0 && (ticket[id] > ticket[j] || (ticket[id] == ticket[j] && id > j))) {
 				/* nothing */ }
 
-		} // for
+		}
 	}
 
 	private void unlock(int id) {
@@ -74,7 +64,6 @@ public class Bakery extends Thread {
 
 	public static void main(String[] args) {
 
-		// Initialization of the global variables (it is not necessary at all).
 		for (int i = 0; i < numberOfThreads; i++) {
 			choosing[i] = false;
 			ticket[i] = 0;
